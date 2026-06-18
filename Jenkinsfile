@@ -1,35 +1,17 @@
-
 pipeline {
-
     agent any
 
     stages {
 
-        stage('Clone') {
-
+        stage('Checkout') {
             steps {
-                echo 'Downloading Source Code'
+                checkout scm
             }
         }
 
-        stage('Build') {
-
+        stage('Firebase Deploy') {
             steps {
-                echo 'Building Application'
-            }
-        }
-
-        stage('Test') {
-
-            steps {
-                echo 'Testing Application'
-            }
-        }
-
-        stage('Deploy') {
-
-            steps {
-                echo 'Deploying Application'
+                bat 'firebase deploy --non-interactive'
             }
         }
     }
