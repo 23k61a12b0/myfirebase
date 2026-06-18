@@ -9,10 +9,27 @@ pipeline {
             }
         }
 
-        stage('Firebase Deploy') {
+        stage('Check Firebase') {
             steps {
-                bat 'firebase deploy --non-interactive'
+                bat 'where firebase'
+                bat '"C:\\Users\\Sanepu\\AppData\\Roaming\\npm\\firebase.cmd" --version'
             }
+        }
+
+        stage('Deploy to Firebase') {
+            steps {
+                bat '"C:\\Users\\Sanepu\\AppData\\Roaming\\npm\\firebase.cmd" deploy --non-interactive'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Firebase deployment successful!'
+        }
+
+        failure {
+            echo 'Firebase deployment failed!'
         }
     }
 }
