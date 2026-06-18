@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        FIREBASE_TOKEN = credentials('firebase-token')
+        FIREBASE = 'C:\\Users\\Laksh\\AppData\\Roaming\\npm\\firebase.cmd'
+    }
+
     stages {
 
         stage('Checkout') {
@@ -9,16 +14,15 @@ pipeline {
             }
         }
 
-        stage('Check Firebase') {
+        stage('Firebase Version') {
             steps {
-                bat 'where firebase'
-                bat '"C:\\Users\\Sanepu\\AppData\\Roaming\\npm\\firebase.cmd" --version'
+                bat '"%FIREBASE%" --version'
             }
         }
 
         stage('Deploy to Firebase') {
             steps {
-                bat '"C:\\Users\\Sanepu\\AppData\\Roaming\\npm\\firebase.cmd" deploy --non-interactive'
+                bat '"%FIREBASE%" deploy --token "%FIREBASE_TOKEN%" --non-interactive'
             }
         }
     }
